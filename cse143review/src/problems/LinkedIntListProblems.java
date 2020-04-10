@@ -22,16 +22,27 @@ public class LinkedIntListProblems {
      * Reverses the 3 elements in the `LinkedIntList` (assume there are exactly 3 elements).
      */
     public static void reverse3(LinkedIntList list) {
-        // TODO replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        ListNode temp = list.front.next.next;
+        list.front.next.next.next = list.front.next;
+        list.front.next.next = list.front;
+        list.front.next = null;
+        list.front = temp;
     }
 
     /**
      * Moves the first element of the input list to the back of the list.
      */
     public static void firstToLast(LinkedIntList list) {
-        // TODO replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        if (list.front != null && list.front.next != null) {
+            ListNode curr = list.front.next;
+            ListNode temp = list.front;
+            list.front = list.front.next;
+            while (curr.next != null) {
+                curr = curr.next;
+            }
+            temp.next = null;
+            curr.next = temp;
+        }
     }
 
     /**
@@ -39,8 +50,25 @@ public class LinkedIntListProblems {
      * of n. Does not modify items of A or B.
      */
     public static LinkedIntList concatenate(LinkedIntList a, LinkedIntList b) {
-        // Hint: you'll need to use the 'new' keyword to construct new objects.
-        // TODO replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        LinkedIntList c = new LinkedIntList();
+        ListNode temp = c.front;
+        if (a.front != null && a.front.next != null) {
+            c.front = new ListNode(a.front.data);
+            temp = c.front;
+            ListNode curr = a.front;
+            while (curr.next != null) {
+                curr = curr.next;
+                temp.next = new ListNode(curr.data);
+                temp = temp.next;
+            }
+        }
+        if (b.front != null) {
+            if (temp != null) {
+                temp.next = b.front;
+            } else {
+                c.front = b.front;
+            }
+        }
+        return c;
     }
 }
