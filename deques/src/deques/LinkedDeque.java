@@ -10,19 +10,25 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
 
     public LinkedDeque() {
         size = 0;
-        // TODO: replace this with your code
+        front = new Node<T>(null);
+        back = new Node<T>(null);
+
+        front.next = back;
+        back.prev = front;
     }
 
     public void addFirst(T item) {
+        Node<T> node = new Node<T>(item, front, front.next);
+        front.next.prev = node;
+        front.next = node;
         size += 1;
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     public void addLast(T item) {
+        Node<T> node = new Node<T>(item, back.prev, back);
+        back.prev.next = node;
+        back.prev = node;
         size += 1;
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     public T removeFirst() {
@@ -30,8 +36,10 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
             return null;
         }
         size -= 1;
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        Node<T> node = front.next;
+        node.next.prev = node.prev;
+        node.prev.next = node.next;
+        return node.value;
     }
 
     public T removeLast() {
@@ -39,16 +47,22 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
             return null;
         }
         size -= 1;
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        Node<T> node = back.prev;
+        node.next.prev = node.prev;
+        node.prev.next = node.next;
+        return node.value;
     }
 
     public T get(int index) {
         if ((index >= size) || (index < 0)) {
             return null;
         }
-        // TODO: replace this with your code
-        throw new UnsupportedOperationException("Not implemented yet.");
+        Node<T> curr = front.next;
+        while (index > 0) {
+            curr = curr.next;
+            index--;
+        }
+        return curr.value;
     }
 
     public int size() {
