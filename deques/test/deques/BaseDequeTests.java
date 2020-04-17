@@ -164,7 +164,6 @@ public abstract class BaseDequeTests extends BaseTest {
         Deque<Integer> deque = createDeque();
         IntStream.range(0, 20).forEach(deque::addLast);
         // this assertion calls `get` for each index
-        System.out.println(deque);
         assertThat(deque).containsExactly(IntStream.range(0, 20).boxed().toArray(Integer[]::new));
         checkInvariants(deque);
     }
@@ -194,6 +193,16 @@ public abstract class BaseDequeTests extends BaseTest {
         boolean b = deque.removeFirst();
         assertThat(b).isTrue();
         checkInvariants(deque);
+    }
+
+    @Test
+    void removeAll_AB() {
+        Deque<Integer> deque = createDeque();
+        IntStream.range(1, 35).forEach(deque::addLast);
+        for (int i = 0; i < 32; i++) {
+            deque.removeLast();
+        }
+        System.out.print(deque);
     }
 
     /*
