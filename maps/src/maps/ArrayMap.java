@@ -27,9 +27,9 @@ public class ArrayMap<K, V> extends AbstractIterableMap<K, V> {
     /**
      * This method will return a new, empty array of the given size that can contain
      * {@code Entry<K, V>} objects.
-     *
+     * <p>
      * Note that each element in the array will initially be null.
-     *
+     * <p>
      * Note: You do not need to modify this method.
      */
     @SuppressWarnings("unchecked")
@@ -51,38 +51,44 @@ public class ArrayMap<K, V> extends AbstractIterableMap<K, V> {
     public V put(K key, V value) {
         if (entries.length <= size) {
             SimpleEntry<K, V>[] temp = this.createArrayOfEntries(entries.length * 2);
-            for (int i = 0; i < entries.length; i++) {
-                temp[i] = entries[i];
-            }
+            System.arraycopy(entries, 0, temp, 0, size);
             entries = temp;
         }
 
-        for (int i = 0; i < entries.length; i++) {
-            if (entries[i] != null
-                && (entries[i].getKey() == key
-                || entries[i].getKey().equals(key))) {
+        for (int i = 0; i < size; i++) {
+            if (hasSameKey(entries[i], key)) {
                 V result = entries[i].getValue();
-                entries[i] = new SimpleEntry<K, V>(key, value);
+                entries[i] = new SimpleEntry<>(key, value);
                 return result;
             }
         }
 
-        entries[size] = new SimpleEntry<K, V>(key, value);
+        entries[size] = new SimpleEntry<>(key, value);
         size++;
         return null;
+    }
+
+    private boolean hasSameKey(SimpleEntry<K, V> entry, Object key) {
+        if (entry == null) {
+            return false;
+        }
+        if (key != null) {
+            return key.equals(entry.getKey());
+        } else {
+            return entry.getKey() == null;
+        }
     }
 
     @Override
     public V remove(Object key) {
         V result = null;
-        for (int i = 0; i < entries.length; i++) {
-            if (entries[i] != null
-                && (entries[i].getKey() == key
-                || entries[i].getKey().equals(key))) {
+        for (int i = 0; i < size; i++) {
+            if (hasSameKey(entries[i], key)) {
                 size--;
                 result = entries[i].getValue();
                 entries[i] = entries[size];
                 entries[size] = null;
+                break;
             }
         }
         return result;
@@ -91,6 +97,7 @@ public class ArrayMap<K, V> extends AbstractIterableMap<K, V> {
     @Override
     public void clear() {
         Arrays.fill(entries, null);
+        size = 0;
     }
 
     @Override
