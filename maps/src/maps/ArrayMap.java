@@ -40,7 +40,7 @@ public class ArrayMap<K, V> extends AbstractIterableMap<K, V> {
     @Override
     public V get(Object key) {
         for (SimpleEntry<K, V> entry : entries) {
-            if (entry != null && (entry.getKey() == key || entry.getKey().equals(key))) {
+            if (hasSameKey(entry, key)) {
                 return entry.getValue();
             }
         }
@@ -103,7 +103,7 @@ public class ArrayMap<K, V> extends AbstractIterableMap<K, V> {
     @Override
     public boolean containsKey(Object key) {
         for (SimpleEntry<K, V> entry : entries) {
-            if (entry != null && (entry.getKey() == key || entry.getKey().equals(key))) {
+            if (hasSameKey(entry, key)) {
                 return true;
             }
         }
