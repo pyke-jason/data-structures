@@ -110,9 +110,9 @@ public class ArrayDeque<T> extends AbstractDeque<T> {
     private void resize(int capacity) {
         T[] newData = (T[]) new Object[capacity];
         int i = front;
-        for (int newIndex = 0; newIndex < size; newIndex += 1) {
-            newData[newIndex] = data[i];
-            i = increment(i, data.length);
+            for (int newIndex = 0; newIndex < size; newIndex += 1) {
+                newData[newIndex] = data[i];
+                i = increment(i, data.length);
         }
         newData[size] = data[i];
         front = 0;
