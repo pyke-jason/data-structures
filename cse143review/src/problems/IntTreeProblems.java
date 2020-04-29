@@ -6,19 +6,19 @@ import datastructures.IntTree.IntTreeNode;
 
 /**
  * See the spec on the website for tips and example behavior.
- * <p>
+ *
  * Also note: you may want to use private helper methods to help you solve these problems.
  * YOU MUST MAKE THE PRIVATE HELPER METHODS STATIC, or else your code will not compile.
  * This happens for reasons that aren't the focus of this assignment and are mostly skimmed over in
  * 142 and 143. If you want to know more, you can ask on the discussion board or at office hours.
- * <p>
+ *
  * REMEMBER THE FOLLOWING RESTRICTIONS:
  * - do not call any methods on the `IntTree` objects
  * - do not construct new `IntTreeNode` objects (though you may have as many `IntTreeNode` variables
- * as you like).
+ *      as you like).
  * - do not construct any external data structures such as arrays, queues, lists, etc.
  * - do not mutate the `data` field of any node; instead, change the tree only by modifying
- * links between nodes.
+ *      links between nodes.
  */
 
 public class IntTreeProblems {
@@ -31,28 +31,29 @@ public class IntTreeProblems {
         return depthSum(tree.overallRoot, 1);
     }
 
-    private static int depthSum(IntTreeNode cur, int level) {
-        if (cur == null) {
+    private static int depthSum(IntTreeNode root, int depth) {
+        if (root == null) {
             return 0;
-        } else {
-            return level * cur.data + depthSum(cur.left, level + 1) + depthSum(cur.right, level + 1);
         }
+        return depth * root.data
+            + (depthSum(root.left, depth + 1)
+            + depthSum(root.right, depth + 1));
     }
 
     /**
      * Removes all leaf nodes from the given tree.
      */
     public static void removeLeaves(IntTree tree) {
-        tree.overallRoot = removeLeaves(tree.overallRoot);
+        tree.overallRoot = removeLeavesHelper(tree.overallRoot);
     }
 
-    private static IntTreeNode removeLeaves(IntTreeNode cur) {
-        if (cur == null || cur.left == null && cur.right == null) {
+    private static IntTreeNode removeLeavesHelper(IntTreeNode root) {
+        if (root == null || (root.left == null && root.right == null)) {
             return null;
         } else {
-            cur.left = removeLeaves(cur.left);
-            cur.right = removeLeaves(cur.right);
-            return cur;
+            root.right = removeLeavesHelper(root.right);
+            root.left = removeLeavesHelper(root.left);
+            return root;
         }
     }
 
@@ -61,20 +62,20 @@ public class IntTreeProblems {
      * (The resulting tree is still a BST.)
      */
     public static void trim(IntTree tree, int min, int max) {
-        tree.overallRoot = trim(tree.overallRoot, min, max);
+        tree.overallRoot = trimHelper(tree.overallRoot, min, max);
     }
 
-    private static IntTreeNode trim(IntTreeNode cur, int min, int max) {
-        if (cur == null) {
+    private static IntTreeNode trimHelper(IntTreeNode root, int min, int max) {
+        if (root == null) {
             return null;
-        } else if (cur.data < min) {
-            return trim(cur.right, min, max);
-        } else if (cur.data > max) {
-            return trim(cur.left, min, max);
+        } else if (root.data >= min && root.data <= max) {
+            root.left = trimHelper(root.left, min, max);
+            root.right = trimHelper(root.right, min, max);
+            return root;
+        } else if (root.data < min) {
+            return trimHelper(root.right, min, max);
         } else {
-            cur.left = trim(cur.left, min, max);
-            cur.right = trim(cur.right, min, max);
-            return cur;
+            return trimHelper(root.left, min, max);
         }
     }
 }

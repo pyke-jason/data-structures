@@ -12,28 +12,23 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
         size = 0;
         front = new Node<T>(null);
         back = new Node<T>(null);
+
         front.next = back;
         back.prev = front;
     }
 
     public void addFirst(T item) {
+        Node<T> node = new Node<T>(item, front, front.next);
+        front.next.prev = node;
+        front.next = node;
         size += 1;
-        Node<T> frontNext = front.next;
-        Node<T> newNode = new Node<T>(item);
-        newNode.next = frontNext;
-        front.next = newNode;
-        frontNext.prev = newNode;
-        newNode.prev = front;
     }
 
     public void addLast(T item) {
+        Node<T> node = new Node<T>(item, back.prev, back);
+        back.prev.next = node;
+        back.prev = node;
         size += 1;
-        Node<T> backPrev = back.prev;
-        Node<T> newNode = new Node<T>(item);
-        newNode.prev = backPrev;
-        back.prev = newNode;
-        backPrev.next = newNode;
-        newNode.next = back;
     }
 
     public T removeFirst() {
@@ -41,11 +36,10 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
             return null;
         }
         size -= 1;
-        Node<T> res = front.next;
-        Node<T> resNext = res.next;
-        front.next = resNext;
-        resNext.prev = front;
-        return res.value;
+        Node<T> node = front.next;
+        node.next.prev = node.prev;
+        node.prev.next = node.next;
+        return node.value;
     }
 
     public T removeLast() {
@@ -53,27 +47,28 @@ public class LinkedDeque<T> extends AbstractDeque<T> {
             return null;
         }
         size -= 1;
-        Node<T> res = back.prev;
-        Node<T> resPrev = res.prev;
-        back.prev = resPrev;
-        resPrev.next = back;
-        return res.value;
+        Node<T> node = back.prev;
+        node.next.prev = node.prev;
+        node.prev.next = node.next;
+        return node.value;
     }
 
     public T get(int index) {
         if ((index >= size) || (index < 0)) {
             return null;
+        } else if (index >= ((int) (size / 2))) {
+            Node<T> curr = back.prev;
+            for (int i = 0; i < size - index - 1; i++) {
+                curr = curr.prev;
+            }
+            return curr.value;
+        } else {
+            Node<T> curr = front.next;
+            for (int i = 0; i < index; i++) {
+                curr = curr.next;
+            }
+            return curr.value;
         }
-        boolean increasing = index < size / 2;
-        Node<T> curNode = increasing ? front.next : back.prev;
-
-        int count = 0;
-        int target = increasing ? index : size - index - 1;
-        while (count < target) {
-            curNode = increasing ? curNode.next : curNode.prev;
-            count++;
-        }
-        return curNode.value;
     }
 
     public int size() {

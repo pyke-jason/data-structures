@@ -2,7 +2,7 @@ package problems;
 
 /**
  * See the spec on the website for example behavior.
- * <p>
+ *
  * REMEMBER THE FOLLOWING RESTRICTIONS:
  * - Do not add any additional imports
  * - Do not create new `int[]` objects for `toString` or `rotateRight`
@@ -14,16 +14,15 @@ public class ArrayProblems {
      * Always starts with '[' and ends with ']'; elements are separated by ',' and a space.
      */
     public static String toString(int[] array) {
-        String res = "[";
-        for (int i = 0; i < array.length; i++) {
-            if (i == array.length - 1) {
-                res += array[i];
-            } else {
-                res += array[i] + ", ";
+        if (array.length == 0) {
+            return "[]";
+        } else {
+            String result = "[";
+            for (int value : array) {
+                result += value + ", ";
             }
+            return result.substring(0, result.length() - 2) + "]";
         }
-        res += "]";
-        return res;
     }
 
     /**
@@ -31,23 +30,25 @@ public class ArrayProblems {
      * Does not modify the input array.
      */
     public static int[] reverse(int[] array) {
-        int[] res = new int[array.length];
-        for (int i = 0; i < res.length; i++) {
-            res[array.length - 1 - i] = array[i];
+        int[] result = new int[array.length];
+        int index = 0;
+        for (int i = array.length - 1; i >= 0; i--) {
+            result[index] = array[i];
+            index++;
         }
-        return res;
+        return result;
     }
 
     /**
      * Rotates the values in the array to the right.
      */
     public static void rotateRight(int[] array) {
-        if (array.length > 0) {
-            int last = array[array.length - 1];
-            for (int i = array.length - 2; i >= 0; i--) {
-                array[1 + i] = array[i];
+        if (array.length != 0) {
+            int placeholder = array[array.length - 1];
+            for (int i = array.length - 1; i > 0; i--) {
+                array[i] = array[i - 1];
             }
-            array[0] = last;
+            array[0] = placeholder;
         }
     }
 }

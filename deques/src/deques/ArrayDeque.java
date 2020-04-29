@@ -16,7 +16,7 @@ public class ArrayDeque<T> extends AbstractDeque<T> {
     }
 
     private static int increment(int i, int length) {
-        if (i >= length - 1) {
+        if (i == length - 1) {
             return 0;
         } else {
             return i + 1;
@@ -24,7 +24,7 @@ public class ArrayDeque<T> extends AbstractDeque<T> {
     }
 
     private static int decrement(int i, int length) {
-        if (i <= 0) {
+        if (i == 0) {
             return length - 1;
         } else {
             return i - 1;
@@ -109,13 +109,14 @@ public class ArrayDeque<T> extends AbstractDeque<T> {
     @SuppressWarnings("unchecked")
     private void resize(int capacity) {
         T[] newData = (T[]) new Object[capacity];
-        int i = increment(front, data.length);
-        for (int newIndex = 0; newIndex < size; newIndex += 1) {
-            newData[newIndex] = data[i];
-            i = increment(i, data.length);
+        int i = front;
+            for (int newIndex = 0; newIndex < size; newIndex += 1) {
+                newData[newIndex] = data[i];
+                i = increment(i, data.length);
         }
-        front = newData.length - 1;
-        back = size;
+        newData[size] = data[i];
+        front = 0;
+        back = size + 1;
         data = newData;
     }
 

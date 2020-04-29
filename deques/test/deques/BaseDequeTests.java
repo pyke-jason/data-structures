@@ -195,6 +195,16 @@ public abstract class BaseDequeTests extends BaseTest {
         checkInvariants(deque);
     }
 
+    @Test
+    void removeAll_AB() {
+        Deque<Integer> deque = createDeque();
+        IntStream.range(1, 35).forEach(deque::addLast);
+        for (int i = 0; i < 32; i++) {
+            deque.removeLast();
+        }
+        System.out.print(deque);
+    }
+
     /*
     This test demonstrates why we like unit tests that test a single unit at a time:
     calling multiple methods in the same test makes issues very hard to debug.
@@ -225,13 +235,16 @@ public abstract class BaseDequeTests extends BaseTest {
         deque.addFirst(-3);
 
         // Test a tricky sequence of removes
+        System.out.println(deque);
         assertThat(deque.removeFirst()).isEqualTo(-3);
+        System.out.println(deque);
         assertThat(deque.removeLast()).isEqualTo(5);
+        System.out.println(deque);
         assertThat(deque.removeLast()).isEqualTo(4);
         assertThat(deque.removeLast()).isEqualTo(3);
         assertThat(deque.removeLast()).isEqualTo(2);
 
-        // TODO ArrayDeque fails here; write better tests to help you find and fix the bug
+        System.out.println(deque);
         int actual = deque.removeLast();
         assertThat(actual).isEqualTo(1);
         checkInvariants(deque);
