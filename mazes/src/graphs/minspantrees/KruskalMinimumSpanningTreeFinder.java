@@ -35,7 +35,7 @@ public class KruskalMinimumSpanningTreeFinder<G extends KruskalGraph<V, E>, V, E
 
     @Override
     public MinimumSpanningTree<V, E> findMinimumSpanningTree(G graph) {
-        if (graph.allVertices().size() == 0) {
+        if (graph.allVertices().size() == 0 || graph.allEdges().size() == 0) {
             return new MinimumSpanningTree.Success<>();
         }
         // Here's some code to get you started; feel free to change or rearrange it if you'd like.
