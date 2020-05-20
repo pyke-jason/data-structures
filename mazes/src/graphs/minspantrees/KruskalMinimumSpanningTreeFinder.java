@@ -1,7 +1,6 @@
 package graphs.minspantrees;
 
 import disjointsets.DisjointSets;
-import disjointsets.QuickFindDisjointSets;
 import disjointsets.UnionBySizeCompressingDisjointSets;
 import graphs.BaseEdge;
 import graphs.KruskalGraph;
@@ -9,12 +8,11 @@ import graphs.KruskalGraph;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Computes minimum spanning trees using Kruskal's algorithm.
+ *
  * @see MinimumSpanningTreeFinder for more documentation.
  */
 public class KruskalMinimumSpanningTreeFinder<G extends KruskalGraph<V, E>, V, E extends BaseEdge<V, E>>
@@ -37,11 +35,11 @@ public class KruskalMinimumSpanningTreeFinder<G extends KruskalGraph<V, E>, V, E
 
     @Override
     public MinimumSpanningTree<V, E> findMinimumSpanningTree(G graph) {
-        if(graph.allVertices().size() == 0){
+        if (graph.allVertices().size() == 0) {
             return new MinimumSpanningTree.Success<>();
         }
         // Here's some code to get you started; feel free to change or rearrange it if you'd like.
-        Collection<E> mst  = new ArrayList<>();
+        Collection<E> mst = new ArrayList<>();
 
         DisjointSets<V> disjointSets = createDisjointSets();
 
@@ -49,16 +47,16 @@ public class KruskalMinimumSpanningTreeFinder<G extends KruskalGraph<V, E>, V, E
         List<E> edges = new ArrayList<>(graph.allEdges());
         edges.sort(Comparator.comparingDouble(E::weight));
 
-        for(V vert : graph.allVertices()){
+        for (V vert : graph.allVertices()) {
             disjointSets.makeSet(vert);
         }
         int mstSize = graph.allVertices().size() - 1;
-        for(E edge : edges){
-            if(disjointSets.findSet(edge.from()) != disjointSets.findSet(edge.to())){
+        for (E edge : edges) {
+            if (disjointSets.findSet(edge.from()) != disjointSets.findSet(edge.to())) {
                 mst.add(edge);
                 disjointSets.union(edge.from(), edge.to());
             }
-            if(mst.size() == mstSize) {
+            if (mst.size() == mstSize) {
                 return new MinimumSpanningTree.Success<>(mst);
             }
         }

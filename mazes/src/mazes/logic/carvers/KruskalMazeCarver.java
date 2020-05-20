@@ -36,12 +36,13 @@ public class KruskalMazeCarver extends MazeCarver {
     @Override
     protected Set<Wall> chooseWallsToRemove(Set<Wall> walls) {
         Collection<EdgeWithData<Room, Wall>> roomWalls = new ArrayList<>();
-        for(Wall w : walls){
+        for (Wall w : walls) {
             roomWalls.add(new EdgeWithData<>(w.getRoom1(), w.getRoom2(), rand.nextFloat(), w));
         }
-        MinimumSpanningTree<Room, EdgeWithData<Room, Wall>> mst = minimumSpanningTreeFinder.findMinimumSpanningTree(new MazeGraph(roomWalls));
+        MinimumSpanningTree<Room, EdgeWithData<Room, Wall>> mst =
+            minimumSpanningTreeFinder.findMinimumSpanningTree(new MazeGraph(roomWalls));
         Set<Wall> result = new HashSet<>();
-        for(EdgeWithData<Room, Wall> edge : mst.edges()){
+        for (EdgeWithData<Room, Wall> edge : mst.edges()) {
             result.add(edge.data());
         }
         return result;
