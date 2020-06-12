@@ -88,7 +88,7 @@ public class DijkstraSeamFinder implements SeamFinder {
                 for (int i = -1; i <= 1; i++) {
                     int x = vert.getX(i, 1);
                     int y = vert.getY(i, 1);
-                    if (x > 0 && y > 0 && x < energies.length && y < energies[0].length) {
+                    if (x >= 0 && y >= 0 && x < energies.length && y < energies[0].length) {
                         RelativeVertex adjacentVert = new RelativeVertex(vertical, vert.lateral + i, vert.forward + 1);
                         res.add(new Edge<>(vert, adjacentVert, energies[x][y]));
                     }
