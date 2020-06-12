@@ -33,7 +33,7 @@ public class DualGradientEnergyFunction implements EnergyFunction {
             bx = getForwardBackwardGradient(Channel.BLUE, c1, c2, c3);
         } else {
             Color left = picture.get(x - 1, y);
-            Color right = picture.get(x - 1, y);
+            Color right = picture.get(x + 1, y);
             rx = getCentralGradient(Channel.RED, right, left);
             gx = getCentralGradient(Channel.GREEN, right, left);
             bx = getCentralGradient(Channel.BLUE, right, left);
