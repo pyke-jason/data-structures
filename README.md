@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CSE 373 Projects
 
 You'll use this Git repository for all coding project assignments in this class.
@@ -14,3 +15,6 @@ for more instructions.
 (In theory, it should be possible to complete our projects using the Gradle 
 support in any other IDE or by using Gradle without an IDE, but the course 
 staff may not be able to provide technical support if you do so.)
+=======
+# data-structures
+>>>>>>> 8c44540 (Initial commit)
